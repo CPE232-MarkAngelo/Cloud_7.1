@@ -1,0 +1,17 @@
+---
+- name: Collecting logs from Control Node
+  hosts: control
+  become: yes
+  tasks:
+    - name: Create directory for log storage
+      file:
+        path: /home/mrk_manage/collected_logs
+        state: directory
+        mode: '0755'
+
+    - name: Copy log files to Manage Node
+      fetch:
+        src: /var/log/syslog
+        dest: /home/mrk_manage/collected_logs
+        flat: yes
+
